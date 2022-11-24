@@ -171,9 +171,9 @@ void TestaArrayDeContasCorrentes()
 
 List<ContaCorrente> _listaDeContas = new List<ContaCorrente>()
 {
-    new ContaCorrente(95, "123456-X") {Saldo=100},
-    new ContaCorrente(95, "958158-X") {Saldo=200},
-    new ContaCorrente(95, "987321-X") {Saldo=60}
+    new ContaCorrente(95, "123456-X") {Saldo=100, Titular = new Cliente{Cpf="11111", Nome = "Henrique"}},
+    new ContaCorrente(95, "958158-X") {Saldo=200, Titular = new Cliente{Cpf="22222", Nome = "Pedro"}},
+    new ContaCorrente(94, "987321-W") {Saldo=60, Titular = new Cliente{Cpf="33333", Nome = "Marisa"}}
 };
 
 AtendimentoCliente();
@@ -214,6 +214,12 @@ void AtendimentoCliente()
                 case '2':
                     ListarContas();
                     break;
+                case '3':
+                    RemoverContas();
+                    break;
+                case '4':
+                    OrdenarContas();
+                    break;
                 default:
                     Console.WriteLine("Opcao não implementada.");
                     break;
@@ -225,6 +231,42 @@ void AtendimentoCliente()
         Console.WriteLine($"{excecao.Message}");
     }
     
+}
+
+void OrdenarContas()
+{
+    _listaDeContas.Sort();
+    Console.WriteLine("... Lista de contas ordenadas ...");
+    Console.ReadKey();
+}
+
+void RemoverContas()
+{
+    Console.Clear();
+    Console.WriteLine("===============================");
+    Console.WriteLine("===     REMOVER CONTAS      ===");
+    Console.WriteLine("===============================");
+    Console.WriteLine("\n");
+    Console.Write("Informe o número da conta: ");
+    string numeroConta = Console.ReadLine();
+    ContaCorrente conta = null;
+    foreach (var item in _listaDeContas)
+    {
+        if (item.Conta.Equals(numeroConta))
+        {
+            conta = item;
+        }
+    }
+    if (conta != null)
+    {
+        _listaDeContas.Remove(conta);
+        Console.WriteLine("... Conta removida da lista! ...");
+    }
+    else
+    {
+        Console.WriteLine("... Conta para remoção não encontrada ...");
+    }
+    Console.ReadKey();
 }
 
 void ListarContas()
